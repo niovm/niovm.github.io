@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Please wait...</title>
@@ -9,19 +10,43 @@
     }
     body {
       font-family: 'Minecraftia', monospace;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .top {
       text-align: center;
-      margin-top: 20%;
+      margin-top: 50px;
+    }
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      width: 300px;
     }
     h1 {
       font-size: 24px;
+      margin: 0;
     }
     p {
       font-size: 12px;
+      margin: 10px 0 0;
     }
   </style>
 </head>
 <body>
-  <h1>Will be live soon</h1>
-  <p>-Tanvir Hasan</p>
+  <div class="top">
+    <img src="title.png" alt="Tanvir Hasan Logo">
+  </div>
+  <div class="center">
+    <h1>Will be live soon</h1>
+    <p>-Tanvir Hasan</p>
+  </div>
 </body>
 </html>
