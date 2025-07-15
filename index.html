@@ -1,52 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Please wait...</title>
+  <title>NiovmWebTanvir</title>
   <link rel="icon" type="image/x-icon" href="icon.svg">
   <style>
     @font-face {
       font-family: 'Minecraftia';
       src: url('Minecraftia-Regular.ttf') format('truetype');
     }
+
     body {
-      font-family: 'Minecraftia', monospace;
       margin: 0;
       padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
+      font-family: 'Minecraftia', monospace;
+      background-image: url('dirt_bg.jpg');
+      background-repeat: repeat;
+      background-size: auto 100px;
+      color: white;
     }
-    .top {
-      text-align: center;
-      margin-top: 50px;
+
+    .header {
+      background-image: url('stone_bg.jpg');
+      background-repeat: repeat-x;
+      background-size: auto 100%;
+      padding: 20px 0;
+      position: relative;
     }
-    .center {
-      flex: 1;
+
+    .header-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
-    img {
-      width: 300px;
+
+    .logo {
+      position: absolute;
+      left: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
     }
+
+    .nav {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Minecraftia', monospace;
+      cursor: pointer;
+    }
+
+    .nav a:hover {
+      color: yellow;
+    }
+
+    .content {
+      padding: 60px;
+      text-align: center;
+      width: 80%;
+      margin: 40px auto;
+      color: #ffffff;
+    }
+
     h1 {
-      font-size: 24px;
-      margin: 0;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
+
     p {
-      font-size: 12px;
-      margin: 10px 0 0;
+      font-size: 16px;
+      margin: 0 0 20px;
+    }
+
+    .links a {
+      color: #0000ff;
+      text-decoration: underline;
+      display: block;
+      margin: 10px 0;
+    }
+
+    .links a:hover {
+      color: #ffffff;
     }
   </style>
 </head>
 <body>
-  <div class="top">
-    <img src="title.png" alt="Tanvir Hasan Logo">
+
+  <!-- Header with fixed logo and perfectly centered nav -->
+  <div class="header">
+    <div class="header-content">
+      <img src="web_title.png" alt="NIOVM Logo" class="logo">
+      <div class="nav">
+        <a onclick="showContent('home')">Home</a>
+        <a onclick="showContent('java')">MinecraftServer (Java)</a>
+        <a onclick="showContent('bedrock')">MinecraftServer (Bedrock)</a>
+        <a onclick="showContent('contact')">Contact</a>
+      </div>
+    </div>
   </div>
-  <div class="center">
-    <h1>Will be live soon</h1>
-    <p>-Tanvir Hasan</p>
+
+  <!-- Main Content -->
+  <div class="content" id="mainContent">
+    <!-- Dynamic content here -->
   </div>
+
+  <!-- Content Switch Script -->
+  <script>
+    function showContent(section) {
+      const content = {
+        home: `
+          <h1>Welcome to My Minecraft Styled Site!</h1>
+          <p>Customize this area with your own text or content.</p>
+        `,
+        java: `
+          <h1>Java Edition Server Info</h1>
+          <p>This is where you can write about your Java Minecraft server.</p>
+        `,
+        bedrock: `
+          <h1>Bedrock Edition Server Info</h1>
+          <p>This is where you can write about your Bedrock Minecraft server.</p>
+        `,
+        contact: `
+          <h1>Contact Me</h1>
+          <p>Connect with me through these platforms:</p>
+          <div class="links">
+            <a href="https://discord.com/users/yourid" target="_blank">Discord</a>
+            <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+            <a href="https://youtube.com/@yourchannel" target="_blank">YouTube</a>
+          </div>
+        `
+      };
+
+      document.getElementById('mainContent').innerHTML = content[section] || content['home'];
+    }
+
+    // Load Home tab on first visit
+    window.onload = () => {
+      showContent('home');
+    };
+  </script>
+
 </body>
 </html>
