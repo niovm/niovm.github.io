@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NiovmWebTanvir</title>
   <link rel="icon" href="icon.svg" />
@@ -20,7 +18,6 @@
       overflow: hidden;
     }
 
-    /* Header */
     .header {
       background-image: url('stone_bg.jpg');
       background-repeat: repeat-x;
@@ -66,7 +63,6 @@
       color: yellow;
     }
 
-    /* Full screen sliding wrapper */
     .slide-wrapper {
       position: fixed;
       top: 0;
@@ -76,7 +72,6 @@
       z-index: 5;
     }
 
-    /* Tab fills screen height below header */
     .slide-tab {
       background-image: url('dirt_bg.jpg');
       background-repeat: repeat;
@@ -91,7 +86,6 @@
       height: calc(100vh - var(--header-height));
     }
 
-    /* Loading circle just below dirt tab (moved together) */
     .loader-below {
       width: 100%;
       display: flex;
@@ -138,7 +132,6 @@
 </head>
 <body>
 
-  <!-- Header -->
   <div class="header" id="header">
     <div class="header-content">
       <img src="web_title.png" alt="NIOVM Logo" class="logo" />
@@ -151,7 +144,6 @@
     </div>
   </div>
 
-  <!-- Dynamic Content -->
   <div id="contentContainer"></div>
 
   <script>
@@ -186,7 +178,6 @@
       const wrapper = document.createElement('div');
       wrapper.className = 'slide-wrapper';
 
-      // Calculate header height
       const header = document.getElementById('header');
       const headerHeight = header.getBoundingClientRect().height;
       document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
@@ -205,12 +196,11 @@
       container.appendChild(wrapper);
     }
 
-    // Load Home tab on page load
     window.onload = () => {
       showContent('home');
     };
 
-    // Recalculate position on window resize
+
     window.onresize = () => {
       const header = document.getElementById('header');
       const wrapper = document.querySelector('.slide-wrapper');
