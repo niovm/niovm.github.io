@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NiovmWebTanvir</title>
-  <link rel="icon" type="image/x-icon" href="icon.svg">
+  <link rel="icon" href="icon.svg" />
   <style>
     @font-face {
       font-family: 'Minecraftia';
       src: url('Minecraftia-Regular.ttf') format('truetype');
     }
 
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
       font-family: 'Minecraftia', monospace;
-      background-image: url('dirt_bg.jpg');
-      background-repeat: repeat;
-      background-size: auto 100px;
-      color: white;
+      background: white;
+      overflow: hidden;
     }
 
+    /* Header */
     .header {
       background-image: url('stone_bg.jpg');
       background-repeat: repeat-x;
       background-size: auto 100%;
       padding: 20px 0;
       position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .header-content {
-      position: relative;
       max-width: 1200px;
-      margin: 0 auto;
+      width: 100%;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -38,7 +44,7 @@
 
     .logo {
       position: absolute;
-      left: -50px;
+      left: 20px;
       top: 50%;
       transform: translateY(-50%);
       height: 40px;
@@ -52,20 +58,60 @@
     .nav a {
       color: white;
       text-decoration: none;
-      font-family: 'Minecraftia', monospace;
       cursor: pointer;
+      font-size: 16px;
     }
 
     .nav a:hover {
       color: yellow;
     }
 
-    .content {
-      padding: 60px;
-      text-align: center;
-      width: 80%;
-      margin: 40px auto;
-      color: #ffffff;
+    /* Full screen sliding wrapper */
+    .slide-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      animation: slideDown 0.6s ease forwards;
+      z-index: 5;
+    }
+
+    /* Tab fills screen height below header */
+    .slide-tab {
+      background-image: url('dirt_bg.jpg');
+      background-repeat: repeat;
+      background-size: auto 100px;
+      width: 100%;
+      padding: 60px 20px;
+      box-sizing: border-box;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: calc(100vh - var(--header-height));
+    }
+
+    /* Loading circle just below dirt tab (moved together) */
+    .loader-below {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-top: 15px;
+    }
+
+    .loader-below img {
+      width: 40px;
+      height: 40px;
+      opacity: 0.8;
+    }
+
+    @keyframes slideDown {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(0);
+      }
     }
 
     h1 {
@@ -75,45 +121,42 @@
 
     p {
       font-size: 16px;
-      margin: 0 0 20px;
+      margin-bottom: 20px;
     }
 
     .links a {
-      color: #0000ff;
+      color: #00ccff;
       text-decoration: underline;
       display: block;
       margin: 10px 0;
     }
 
     .links a:hover {
-      color: #ffffff;
+      color: yellow;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header with fixed logo and perfectly centered nav -->
-  <div class="header">
+  <!-- Header -->
+  <div class="header" id="header">
     <div class="header-content">
-      <img src="web_title.png" alt="NIOVM Logo" class="logo">
-      <div class="nav">
+      <img src="web_title.png" alt="NIOVM Logo" class="logo" />
+      <nav class="nav">
         <a onclick="showContent('home')">Home</a>
         <a onclick="showContent('java')">MinecraftServer (Java)</a>
         <a onclick="showContent('bedrock')">MinecraftServer (Bedrock)</a>
         <a onclick="showContent('contact')">Contact</a>
-      </div>
+      </nav>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="content" id="mainContent">
-    <!-- Dynamic content here -->
-  </div>
+  <!-- Dynamic Content -->
+  <div id="contentContainer"></div>
 
-  <!-- Content Switch Script -->
   <script>
     function showContent(section) {
-      const content = {
+      const contentMap = {
         home: `
           <h1>Welcome to My Minecraft Styled Site!</h1>
           <p>Customize this area with your own text or content.</p>
@@ -137,12 +180,45 @@
         `
       };
 
-      document.getElementById('mainContent').innerHTML = content[section] || content['home'];
+      const container = document.getElementById('contentContainer');
+      container.innerHTML = '';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'slide-wrapper';
+
+      // Calculate header height
+      const header = document.getElementById('header');
+      const headerHeight = header.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+      wrapper.style.top = `${headerHeight}px`;
+
+      const tab = document.createElement('div');
+      tab.className = 'slide-tab';
+      tab.innerHTML = contentMap[section] || contentMap['home'];
+
+      const loader = document.createElement('div');
+      loader.className = 'loader-below';
+      loader.innerHTML = `<img src="loading.gif" alt="Loading">`;
+
+      wrapper.appendChild(tab);
+      wrapper.appendChild(loader);
+      container.appendChild(wrapper);
     }
 
-    // Load Home tab on first visit
+    // Load Home tab on page load
     window.onload = () => {
       showContent('home');
+    };
+
+    // Recalculate position on window resize
+    window.onresize = () => {
+      const header = document.getElementById('header');
+      const wrapper = document.querySelector('.slide-wrapper');
+      if (wrapper && header) {
+        const headerHeight = header.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        wrapper.style.top = `${headerHeight}px`;
+      }
     };
   </script>
 
